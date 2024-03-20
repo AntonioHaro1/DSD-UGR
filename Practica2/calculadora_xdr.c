@@ -6,6 +6,28 @@
 #include "calculadora.h"
 
 bool_t
+xdr_VectorNode (XDR *xdrs, VectorNode *objp)
+{
+	register int32_t *buf;
+
+	int i;
+	 if (!xdr_vector (xdrs, (char *)objp->vector, 20,
+		sizeof (float), (xdrproc_t) xdr_float))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_VectorList (XDR *xdrs, VectorList *objp)
+{
+	register int32_t *buf;
+
+	 if (!xdr_pointer (xdrs, (char **)objp, sizeof (VectorNode), (xdrproc_t) xdr_VectorNode))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
 xdr_sumar_1_argument (XDR *xdrs, sumar_1_argument *objp)
 {
 	 if (!xdr_float (xdrs, &objp->a))
@@ -41,6 +63,54 @@ xdr_dividir_1_argument (XDR *xdrs, dividir_1_argument *objp)
 	 if (!xdr_float (xdrs, &objp->a))
 		 return FALSE;
 	 if (!xdr_float (xdrs, &objp->b))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_suma_vectores_2_argument (XDR *xdrs, suma_vectores_2_argument *objp)
+{
+	 if (!xdr_VectorNode (xdrs, &objp->VectorA))
+		 return FALSE;
+	 if (!xdr_VectorNode (xdrs, &objp->VectorB))
+		 return FALSE;
+	 if (!xdr_int (xdrs, &objp->longitud))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_resta_vectores_2_argument (XDR *xdrs, resta_vectores_2_argument *objp)
+{
+	 if (!xdr_VectorNode (xdrs, &objp->VectorA))
+		 return FALSE;
+	 if (!xdr_VectorNode (xdrs, &objp->VectorB))
+		 return FALSE;
+	 if (!xdr_int (xdrs, &objp->longitud))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_producto_escalar_2_argument (XDR *xdrs, producto_escalar_2_argument *objp)
+{
+	 if (!xdr_VectorNode (xdrs, &objp->VectorA))
+		 return FALSE;
+	 if (!xdr_VectorNode (xdrs, &objp->VectorB))
+		 return FALSE;
+	 if (!xdr_int (xdrs, &objp->longitud))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_producto_vectores_2_argument (XDR *xdrs, producto_vectores_2_argument *objp)
+{
+	 if (!xdr_VectorNode (xdrs, &objp->VectorA))
+		 return FALSE;
+	 if (!xdr_VectorNode (xdrs, &objp->VectorB))
+		 return FALSE;
+	 if (!xdr_int (xdrs, &objp->longitud))
 		 return FALSE;
 	return TRUE;
 }

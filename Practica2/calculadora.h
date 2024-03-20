@@ -13,7 +13,13 @@
 extern "C" {
 #endif
 
-#define operadores_basicos 4
+
+struct VectorNode {
+	float vector[20];
+};
+typedef struct VectorNode VectorNode;
+
+typedef VectorNode *VectorList;
 
 struct sumar_1_argument {
 	float a;
@@ -39,7 +45,35 @@ struct dividir_1_argument {
 };
 typedef struct dividir_1_argument dividir_1_argument;
 
-#define CALCULADORA 0x20000001
+struct suma_vectores_2_argument {
+	VectorNode VectorA;
+	VectorNode VectorB;
+	int longitud;
+};
+typedef struct suma_vectores_2_argument suma_vectores_2_argument;
+
+struct resta_vectores_2_argument {
+	VectorNode VectorA;
+	VectorNode VectorB;
+	int longitud;
+};
+typedef struct resta_vectores_2_argument resta_vectores_2_argument;
+
+struct producto_escalar_2_argument {
+	VectorNode VectorA;
+	VectorNode VectorB;
+	int longitud;
+};
+typedef struct producto_escalar_2_argument producto_escalar_2_argument;
+
+struct producto_vectores_2_argument {
+	VectorNode VectorA;
+	VectorNode VectorB;
+	int longitud;
+};
+typedef struct producto_vectores_2_argument producto_vectores_2_argument;
+
+#define CALCULADORA 0x20000004
 #define CALCULADORA_SIMPLE 1
 
 #if defined(__STDC__) || defined(__cplusplus)
@@ -72,20 +106,64 @@ extern  float * dividir_1();
 extern  float * dividir_1_svc();
 extern int calculadora_1_freeresult ();
 #endif /* K&R C */
+#define CALCULADORA_VECTORES 2
+
+#if defined(__STDC__) || defined(__cplusplus)
+#define SUMA_VECTORES 5
+extern  VectorNode * suma_vectores_2(VectorNode , VectorNode , int , CLIENT *);
+extern  VectorNode * suma_vectores_2_svc(VectorNode , VectorNode , int , struct svc_req *);
+#define RESTA_VECTORES 6
+extern  VectorNode * resta_vectores_2(VectorNode , VectorNode , int , CLIENT *);
+extern  VectorNode * resta_vectores_2_svc(VectorNode , VectorNode , int , struct svc_req *);
+#define PRODUCTO_ESCALAR 7
+extern  float * producto_escalar_2(VectorNode , VectorNode , int , CLIENT *);
+extern  float * producto_escalar_2_svc(VectorNode , VectorNode , int , struct svc_req *);
+#define PRODUCTO_VECTORES 8
+extern  VectorNode * producto_vectores_2(VectorNode , VectorNode , int , CLIENT *);
+extern  VectorNode * producto_vectores_2_svc(VectorNode , VectorNode , int , struct svc_req *);
+extern int calculadora_2_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
+
+#else /* K&R C */
+#define SUMA_VECTORES 5
+extern  VectorNode * suma_vectores_2();
+extern  VectorNode * suma_vectores_2_svc();
+#define RESTA_VECTORES 6
+extern  VectorNode * resta_vectores_2();
+extern  VectorNode * resta_vectores_2_svc();
+#define PRODUCTO_ESCALAR 7
+extern  float * producto_escalar_2();
+extern  float * producto_escalar_2_svc();
+#define PRODUCTO_VECTORES 8
+extern  VectorNode * producto_vectores_2();
+extern  VectorNode * producto_vectores_2_svc();
+extern int calculadora_2_freeresult ();
+#endif /* K&R C */
 
 /* the xdr functions */
 
 #if defined(__STDC__) || defined(__cplusplus)
+extern  bool_t xdr_VectorNode (XDR *, VectorNode*);
+extern  bool_t xdr_VectorList (XDR *, VectorList*);
 extern  bool_t xdr_sumar_1_argument (XDR *, sumar_1_argument*);
 extern  bool_t xdr_restar_1_argument (XDR *, restar_1_argument*);
 extern  bool_t xdr_multiplicar_1_argument (XDR *, multiplicar_1_argument*);
 extern  bool_t xdr_dividir_1_argument (XDR *, dividir_1_argument*);
+extern  bool_t xdr_suma_vectores_2_argument (XDR *, suma_vectores_2_argument*);
+extern  bool_t xdr_resta_vectores_2_argument (XDR *, resta_vectores_2_argument*);
+extern  bool_t xdr_producto_escalar_2_argument (XDR *, producto_escalar_2_argument*);
+extern  bool_t xdr_producto_vectores_2_argument (XDR *, producto_vectores_2_argument*);
 
 #else /* K&R C */
+extern bool_t xdr_VectorNode ();
+extern bool_t xdr_VectorList ();
 extern bool_t xdr_sumar_1_argument ();
 extern bool_t xdr_restar_1_argument ();
 extern bool_t xdr_multiplicar_1_argument ();
 extern bool_t xdr_dividir_1_argument ();
+extern bool_t xdr_suma_vectores_2_argument ();
+extern bool_t xdr_resta_vectores_2_argument ();
+extern bool_t xdr_producto_escalar_2_argument ();
+extern bool_t xdr_producto_vectores_2_argument ();
 
 #endif /* K&R C */
 

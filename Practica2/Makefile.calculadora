@@ -22,7 +22,7 @@ OBJECTS_SVC = $(SOURCES_SVC.c:%.c=%.o) $(TARGETS_SVC.c:%.c=%.o)
 
 CFLAGS += -g -I/usr/include/tirpc
 LDLIBS += -ltirpc
-RPCGENFLAGS = 
+RPCGENFLAGS = -N
 
 # Targets 
 

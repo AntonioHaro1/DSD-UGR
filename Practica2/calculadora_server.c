@@ -11,10 +11,8 @@ sumar_1_svc(float a, float b,  struct svc_req *rqstp)
 {
 	static float  result;
 
-	/*
-	 * insert server code here
-	 */
 	result = a + b;
+
 	return &result;
 }
 
@@ -23,10 +21,8 @@ restar_1_svc(float a, float b,  struct svc_req *rqstp)
 {
 	static float  result;
 
-	/*
-	 * insert server code here
-	 */
 	result = a - b;
+
 	return &result;
 }
 
@@ -35,10 +31,8 @@ multiplicar_1_svc(float a, float b,  struct svc_req *rqstp)
 {
 	static float  result;
 
-	/*
-	 * insert server code here
-	 */
 	result = a * b;
+
 	return &result;
 }
 
@@ -47,15 +41,61 @@ dividir_1_svc(float a, float b,  struct svc_req *rqstp)
 {
 	static float  result;
 
-	/*
-	 * insert server code here
-	 */
-	if (b != 0){
-		result = a / b;
-	}else
-	{	
-		result = 0.0;
-	}
-	
+    if (b != 0) {
+        result = a / b;
+    } else {
+        result = 0.0;
+    }
+	return &result;
+}
+
+VectorNode *
+suma_vectores_2_svc(VectorNode VectorA, VectorNode VectorB, int longitud,  struct svc_req *rqstp)
+{
+	static VectorNode  result;
+
+  	for(int i = 0; i < longitud; i++){
+    	result.vector[i] = VectorA.vector[i] + VectorB.vector[i];
+  	}
+
+	return &result;
+}
+
+
+VectorNode *
+resta_vectores_2_svc(VectorNode VectorA, VectorNode VectorB, int longitud,  struct svc_req *rqstp)
+{
+	static VectorNode  result;
+
+  	for(int i = 0; i < longitud; i++){
+    	result.vector[i] = VectorA.vector[i] - VectorB.vector[i];
+  	}
+
+   return &result;
+}
+
+
+float *
+producto_escalar_2_svc(VectorNode VectorA, VectorNode VectorB, int longitud,  struct svc_req *rqstp)
+{
+	static float result;
+
+  	for (int i = 0; i < longitud; i++){
+    	result += VectorA.vector[i] * VectorB.vector[i];
+  	}
+	printf("Se mete");
+	return &result;
+}
+
+
+VectorNode *
+producto_vectores_2_svc(VectorNode VectorA, VectorNode VectorB, int longitud,  struct svc_req *rqstp)
+{
+	static VectorNode  result;
+
+  	for (int i = 0; i < longitud; i++){
+    	result.vector[i] = VectorA.vector[i] * VectorB.vector[i];
+ 	}
+
 	return &result;
 }

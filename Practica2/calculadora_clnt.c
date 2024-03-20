@@ -76,3 +76,75 @@ dividir_1(float a, float b,  CLIENT *clnt)
 	}
 	return (&clnt_res);
 }
+
+VectorNode *
+suma_vectores_2(VectorNode VectorA, VectorNode VectorB, int longitud,  CLIENT *clnt)
+{
+	suma_vectores_2_argument arg;
+	static VectorNode clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	arg.VectorA = VectorA;
+	arg.VectorB = VectorB;
+	arg.longitud = longitud;
+	if (clnt_call (clnt, SUMA_VECTORES, (xdrproc_t) xdr_suma_vectores_2_argument, (caddr_t) &arg,
+		(xdrproc_t) xdr_VectorNode, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}
+
+VectorNode *
+resta_vectores_2(VectorNode VectorA, VectorNode VectorB, int longitud,  CLIENT *clnt)
+{
+	resta_vectores_2_argument arg;
+	static VectorNode clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	arg.VectorA = VectorA;
+	arg.VectorB = VectorB;
+	arg.longitud = longitud;
+	if (clnt_call (clnt, RESTA_VECTORES, (xdrproc_t) xdr_resta_vectores_2_argument, (caddr_t) &arg,
+		(xdrproc_t) xdr_VectorNode, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}
+
+float *
+producto_escalar_2(VectorNode VectorA, VectorNode VectorB, int longitud,  CLIENT *clnt)
+{
+	producto_escalar_2_argument arg;
+	static float clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	arg.VectorA = VectorA;
+	arg.VectorB = VectorB;
+	arg.longitud = longitud;
+	if (clnt_call (clnt, PRODUCTO_ESCALAR, (xdrproc_t) xdr_producto_escalar_2_argument, (caddr_t) &arg,
+		(xdrproc_t) xdr_float, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}
+
+VectorNode *
+producto_vectores_2(VectorNode VectorA, VectorNode VectorB, int longitud,  CLIENT *clnt)
+{
+	producto_vectores_2_argument arg;
+	static VectorNode clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	arg.VectorA = VectorA;
+	arg.VectorB = VectorB;
+	arg.longitud = longitud;
+	if (clnt_call (clnt, PRODUCTO_VECTORES, (xdrproc_t) xdr_producto_vectores_2_argument, (caddr_t) &arg,
+		(xdrproc_t) xdr_VectorNode, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}
