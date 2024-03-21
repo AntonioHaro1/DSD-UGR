@@ -6,6 +6,7 @@
 struct VectorNode {
     float vector[20]; 
 };
+
 typedef struct VectorNode *VectorList;
 
 program CALCULADORA{

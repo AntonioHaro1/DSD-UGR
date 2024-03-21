@@ -30,7 +30,7 @@ calculadora_basica(char *host, float numero1, float numero2, char operador)
         case '-':
             result = restar_1(numero1,numero2,clnt);
             break;
-        case '*':
+        case 'x':
             result = multiplicar_1(numero1,numero2,clnt);
             break;
         case '/':
@@ -81,7 +81,7 @@ void calculadora_vectores(char *host, VectorNode VectorA, VectorNode VectorB,int
             break;
     }
     if(opcion == 3){
-        printf("\nValor resultante: %f", result->vector[0]);
+        printf("\nValor resultante: %f",result->vector[0]);
     }else{
         printf("El vector resultante es: \n");
         for(int i= 0; i< longitud; i++){
@@ -108,7 +108,7 @@ int
 main (int argc, char *argv[])
 {
     char *host;
-    
+
     if (argc != 2)
     {
         printf("Número de parámetros incorrecto\n");
@@ -122,7 +122,7 @@ main (int argc, char *argv[])
     
     Eleccion:
         printf("Calculadora, Seleccione una operacion:\n");
-        printf("1 --> Calculadora simple: + - / * \n");
+        printf("1 --> Calculadora simple: + - / x \n");
         printf("2 --> Calculadora de vectores. \n");
   
     int opcion;
@@ -130,6 +130,7 @@ main (int argc, char *argv[])
 
     if(opcion != 1 && opcion != 2){
         system("clear");
+        while (getchar() != '\n');
         goto Eleccion;
     }
 
@@ -144,13 +145,27 @@ main (int argc, char *argv[])
         float numero1 = 0.0f, numero2 = 0.0f, resultado = 0.0f;
         const char operadores[4] = {'+', '-', 'x', '/'};
         char operador;
+
         do
-        {
+        {            
             scanf("%f %c %f", &numero1, &operador, &numero2);
+/*
+            success = numero1;
+            success2 = numero2;
+
+            if (success != 1) {
+                printf("Error: Entrada no válida. Introduce numeros.\n");
+                while (getchar() != '\n');
+            }
+            if(success2 != 1){
+                printf("Error: Entrada no válida. Introduce numeros.\n");
+                while (getchar() != '\n');  
+            }
+*/
             if(!operador_valido(operador, operadores, 4))
             {
                 printf("No se ha reconocido el operador introducido\n");
-                printf("Los operadores válidos son: + - x /\n");
+                printf("Los operadores válidos son: + - x / \n");
             }
         }while(!operador_valido(operador, operadores, 4));
        
@@ -160,22 +175,46 @@ main (int argc, char *argv[])
     
     case 2:
         printf("Calculadora Vectorial:\n");
-        printf("El formato es primero introducir la longitud de los vectores\n");
+        printf("El formato es primero introducir la longitud de los vectores(MAXIMO 20)\n");
         printf("Luego el primer Vector y luego el segundo vector, introduzca un numero, intro, numero\n");
 
         struct VectorNode VectorA;
         struct VectorNode VectorB;
         int longitud;
-        scanf("%d" , &longitud);
-  
+
+        do{
+            scanf("%d" , &longitud);
+            if(longitud > 20 || longitud < 1){
+                printf("Longitud incorrecta, introduzca una longitud permitida: \n"); 
+            }
+        }while(longitud > 20 || longitud < 1);
+
         for(int i= 0; i< longitud; i++){
-            printf("\n%dº numero del primer vector: ", i+1);
-            scanf("%f", &VectorA.vector[i]);
+            int success;
+            do {
+                printf("%dº numero del primer vector: ", i + 1);
+                success = scanf("%f", &VectorA.vector[i]);
+
+                if (success != 1) {
+                    printf("Error: Entrada no válida. Introduce un número.\n");
+                    while (getchar() != '\n');
+                }
+            }while(success != 1);
         }
+
         for(int i= 0; i< longitud; i++){
-            printf("\n%dº numero del segundo vector: ", i+1);
-            scanf("%f", &VectorB.vector[i]);
+            int success;
+            do {
+                printf("%dº numero del segundo vector: ", i + 1);
+                success = scanf("%f", &VectorB.vector[i]);
+
+                if (success != 1) {
+                    printf("Error: Entrada no válida. Introduce un número.\n");
+                    while (getchar() != '\n');
+                }
+            }while(success != 1);
         }
+
 
         int opcionVectores;
         while (TRUE) {

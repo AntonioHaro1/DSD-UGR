@@ -70,7 +70,6 @@ resta_vectores_2_svc(VectorNode VectorA, VectorNode VectorB, int longitud,  stru
   	for(int i = 0; i < longitud; i++){
     	result.vector[i] = VectorA.vector[i] - VectorB.vector[i];
   	}
-
    return &result;
 }
 
@@ -83,7 +82,6 @@ producto_escalar_2_svc(VectorNode VectorA, VectorNode VectorB, int longitud,  st
   	for (int i = 0; i < longitud; i++){
     	result += VectorA.vector[i] * VectorB.vector[i];
   	}
-	printf("Se mete");
 	return &result;
 }
 
