@@ -1,7 +1,7 @@
 import glob
 import sys
 import math
-import numpy as np
+
 
 from calculadora import Calculadora
 
@@ -80,7 +80,7 @@ class CalculadoraHandler:
     def seno(self,a):
         print("Realizando el seno de " + str(a))
         resultado = math.radians(a)
-        return (math.sin(resultado  ))
+        return (math.sin(resultado))
 
     def coseno(self,a):
         print("Realizando el coseno de " + str(a))

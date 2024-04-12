@@ -15,7 +15,7 @@ transport.open()
 
 # Operadores usados inicializados
 Operadores = ['+','x','-','/']
-Operadores2 = ['seno', 'coseno', 'tangente']
+Operadores2 = ['seno', 'coseno','tangente']
 
 # Funciones auxiliares para comprobar si es float o int
 def isFloat(num):
@@ -149,8 +149,8 @@ elif opcion == 2:
             else:
                 print("introduzca una opcion valida")
         
+        print("introduzca un numero")
         while True:
-            print("introduzca un numero")
             numero = input("numero: ")
             #comprueba que es float el numero introducido
             #si es valido sale del bucle
@@ -158,12 +158,13 @@ elif opcion == 2:
                 numero = float(numero)
                 break
             else:
-                print("introduzca un numero valido")
-    #elige funcion clientre dependiendo de la opcion elegida
-    if opcion == 1:
-        print("Resultado = " + str(client.radianes_grados(numero)))
-    elif opcion == 2:
-        print("Resultado = " + str(client.grados_radianes(numero)))
+                print("introduzca un numero")
+                
+        #elige funcion clientre dependiendo de la opcion elegida
+        if opcion == 1:
+            print("Resultado = " + str(client.radianes_grados(numero)))
+        elif opcion == 2:
+            print("Resultado = " + str(client.grados_radianes(numero)))
 
 elif opcion == 3:
 
