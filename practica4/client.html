@@ -1,0 +1,136 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Client</title>
+	</head>
+	<body>
+        <div id="estados">
+			<p> Temperatura: <span id="temperatura1"></span></p>
+			<p> Luminosidad: <span id="luminosidad1"></span></p>
+            <p> Estado de la persiana: <span id="estado_persiana"></span></p>
+			<p> Estado del A/C: <span id="estado_ac"></span></p>
+			<button id="cambiar_estado_persiana">Cambiar estado de la persiana</button>
+			<button id="cambiar_estado_ac">Cambiar estado del A/C</button>
+			<p id="advertencia_lum" style="color: red"></p>
+			<p id="advertencia_temp" style="color: red"></p>
+		</div>
+		<form action="javascript:void(0);" onsubmit="enviarSensores();">
+			<h1>SENSORES</h1>
+			<label for="temperatura">Temperatura:</label>
+			<input type="text" id="temperatura"><br><br>
+			<label for="luminosidad">Luminosidad:</label>
+			<input type="text" id="luminosidad"><br><br>
+			<input type="submit" value="Enviar datos de los sensores">
+		</form>
+		<h1> REGISTROS DE EVENTOS</h1>
+		<div id="registros">
+        </div>
+	</body>
+	<script src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript">
+
+	    const serviceURL = document.URL;
+		const socket = io(serviceURL);
+
+
+		socket.emit('obtenerDatos');
+		socket.on('datosA', (data) => {
+			document.getElementById('temperatura1').innerHTML = data.temperatura;
+			document.getElementById('luminosidad1').innerHTML = data.luminosidad;
+			document.getElementById('estado_persiana').innerHTML = data.estado_persiana;
+			document.getElementById('estado_ac').innerHTML = data.estado_ac;
+		})
+
+
+		
+		// cuando se actualizan los sensores
+		socket.on('actualizar', (data) => {
+			//actualizarLista(data);
+			document.getElementById('temperatura1').innerHTML = data.temperatura;
+			document.getElementById('luminosidad1').innerHTML = data.luminosidad;
+		});
+
+
+		// Cuando se actualizan los actuadores por el agente
+		socket.on('cerrar_persiana', () => {
+			var estado_persiana = document.getElementById('estado_persiana');
+			estado_persiana.innerHTML = "cerrada";
+		});
+
+		socket.on('encender_ac', () => {
+			var estado_persiana = document.getElementById('estado_ac');
+			estado_persiana.innerHTML = "encendido";
+		});
+
+		socket.on('apagar_ac', () => {
+			var estado_persiana = document.getElementById('estado_ac');
+			estado_persiana.innerHTML = "apagado";
+		});
+
+		// Cuando pulsan lo botones el cliente manda para cambiar estado
+		var boton_persiana = document.getElementById('cambiar_estado_persiana');
+		boton_persiana.onclick = function(){
+			socket.emit('cambiar_estado_persiana');
+		}
+
+		var boton_ac = document.getElementById('cambiar_estado_ac');
+		boton_ac.onclick = function(){
+			socket.emit('cambiar_estado_ac');
+		}
+
+		//cuando se cambia recibe el estado de los actuadores
+		socket.on('obtener_estado_persiana', (data) => {
+			document.getElementById('estado_persiana').innerHTML = data;
+		});
+
+		socket.on('obtener_estado_ac', (data) => {
+			document.getElementById('estado_ac').innerHTML = data;
+		})
+
+
+		// cuando le mandan que ha superado el umbral para la avertencia
+		socket.on('actualizar_advertencia_lum', (data) => {
+
+			if(data > 50){
+				document.getElementById('advertencia_lum').innerHTML = "Advertencia: " + 
+				" La luminosidad ha sobrepasado el valor máximo. Ahora es: " + data;
+			}else{
+				document.getElementById('advertencia_lum').innerHTML = " ";
+			}
+		});
+
+		socket.on('actualizar_advertencia_temp', (data) => {
+			
+			if(data > 30){
+				document.getElementById('advertencia_temp').innerHTML = "Advertencia: " + 
+				" La temperatura ha sobrepasado el valor máximo. Ahora es: " + data;
+			}else{
+				document.getElementById('advertencia_temp').innerHTML = " ";
+			}
+		});
+
+		socket.on('tomaregistros', (data) => {
+            const divRegistros = document.getElementById('registros');
+            divRegistros.innerHTML = '';
+
+                data.forEach(registro => {
+                    const p = document.createElement('p');
+                    p.innerHTML = `${registro.mensaje} - Fecha: ${registro.fecha}`;
+                    divRegistros.appendChild(p);
+                });
+        });
+
+		// Cambio en lo sensores
+		function enviarSensores() {
+        const temperatura = document.getElementById('temperatura').value;
+        const luminosidad = document.getElementById('luminosidad').value;
+
+        socket.emit('datos_actualizados', {
+            temperatura: temperatura,
+            luminosidad: luminosidad,
+            time: new Date().toLocaleString()
+        });
+    	}
+
+	</script>
+</html>
