@@ -31,6 +31,10 @@ En esta parte, se implementa un servidor de donaciones y su réplica utilizando 
 
 ### Práctica 4: Sistema Domótico con Node.js
 
+#### Parte 1: Experimentos con diferentes archivos
+En esta parte, se realizan varios ejercicios para entender el comportamiento de **Node.js**.
+
+#### Parte 2: Archivos cliente.js y servidor.js
 Esta práctica consiste en desarrollar un sistema domótico básico utilizando **Node.js**. El sistema está compuesto por:
 - **Sensores**: Luminosidad y temperatura, el agente actuara por si solo cuando los sensores superan el umbral.
 - **Actuadores**: Motor de persiana y sistema de aire acondicionado donde el usuario podia cambiar el estado.
