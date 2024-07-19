@@ -1,0 +1,14 @@
+1. Ejecutar rmiregistry:
+rmiregistry 2000 &
+
+2. Compilar todo el codigo de java:
+javac *.java
+
+3. Ejecutar el servidor principal:
+java -cp . -Djava.rmi.server.codebase=file:./ -Djava.rmi.server.hostname=localhost -Djava.security.policy=server.policy Servidor
+
+4. Ejecutar el servidor replica:
+java -cp . -Dajava.rmi.server.codebase=file:./ -Djava.rmi.server.hostname=localhost -Djava.security.policy=server.policy ServidorReplica
+
+5. Ejecutar el programa del cliente:
+java -cp . -Djava.security.policy=server.policy ProgramaCliente
